@@ -2,23 +2,35 @@
 #include "../../utilities/singly-linked-node.hpp"
 #include "../../utilities/print-linked-list.cpp"
 
-ListNode* middleNodeHelper(ListNode* head, int currentSize, int& totalSize) {
-  if (head != nullptr) {
-    ListNode* foundNode = middleNodeHelper(head->next, currentSize + 1, ++totalSize);
-    if (foundNode != nullptr) {
-      return foundNode;
-    } else if (totalSize / 2 == currentSize) {
-      return head;
-    } else {
-      return nullptr;
-    }
-  }
-  return head;
-}
+// ListNode* middleNodeHelper(ListNode* head, int currentSize, int& totalSize) {
+//   if (head != nullptr) {
+//     ListNode* foundNode = middleNodeHelper(head->next, currentSize + 1, ++totalSize);
+//     if (foundNode != nullptr) {
+//       return foundNode;
+//     } else if (totalSize / 2 == currentSize) {
+//       return head;
+//     } else {
+//       return nullptr;
+//     }
+//   }
+//   return head;
+// }
+//
+// ListNode* middleNode(ListNode* head) {
+//   int currentSize = 0, totalSize = 0;
+//   return middleNodeHelper(head, currentSize, totalSize);
+// }
 
 ListNode* middleNode(ListNode* head) {
-  int currentSize = 0, totalSize = 0;
-  return middleNodeHelper(head, currentSize, totalSize);
+  ListNode* fast = head;
+  ListNode* slow = head;
+
+  while (fast->next && fast->next->next) {
+    fast = fast->next->next;
+    slow = slow->next;
+  }
+
+  return fast->next ? slow->next : slow;
 }
 
 int main() {
