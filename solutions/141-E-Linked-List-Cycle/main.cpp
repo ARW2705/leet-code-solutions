@@ -2,14 +2,32 @@
 #include <unordered_set>
 #include "../../utilities/singly-linked-node.hpp"
 
+// bool hasCycle(ListNode* head) {
+//   std::unordered_set<ListNode*> previousNodes;
+//   ListNode* current = head;
+//   while (current != nullptr) {
+//     if (previousNodes.find(current) == previousNodes.end()) {
+//       previousNodes.insert(current);
+//       current = current->next;
+//     } else {
+//       return true;
+//     }
+//   }
+//   return false;
+// }
+
 bool hasCycle(ListNode* head) {
-  std::unordered_set<ListNode*> previousNodes;
-  ListNode* current = head;
-  while (current != nullptr) {
-    if (previousNodes.find(current) == previousNodes.end()) {
-      previousNodes.insert(current);
-      current = current->next;
-    } else {
+  if (!head) {
+    return false;
+  }
+
+  ListNode* slowPtr = head;
+  ListNode* fastPtr = head;
+
+  while (fastPtr->next && fastPtr->next->next) {
+    slowPtr = slowPtr->next;
+    fastPtr = fastPtr->next->next;
+    if (slowPtr == fastPtr) {
       return true;
     }
   }
